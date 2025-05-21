@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Birthday Countdown</title>
+  <style>
+    :root {
+      --primary-color: #ffffff;
+      --accent-color: #00ffc3;
+      --bg-color: #0d0d0d;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--primary-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      min-height: 100vh;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: var(--accent-color);
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      max-width: 400px;
+      margin-bottom: 30px;
+    }
+
+    input, button {
+      padding: 12px;
+      font-size: 1.1rem;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+    }
+
+    input {
+      background-color: #1a1a1a;
+      color: var(--primary-color);
+    }
+
+    button {
+      background-color: var(--accent-color);
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #00dab0;
+    }
+
+    #title {
+      font-size: 4rem;
+      margin-bottom: 10px;
+      display: none;
+    }
+
+    #countdown {
+      font-size: 8rem;
+      font-weight: 600;
+      margin: 10px 0;
+      display: none;
+    }
+
+    .birthday-message {
+      font-size: 3rem;
+      margin-top: 20px;
+      color: var(--accent-color);
+    }
+
+    #typed-message {
+      font-size: 1.2rem;
+      margin-top: 20px;
+      max-width: 600px;
+      white-space: pre-wrap;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 500px) {
+  #countdown {
+    font-size: 2.5rem; /* Adjust for message on mobile */
+  }
+}
+      h1 {
+        font-size: 1.8rem;
+      }
+      #title {
+        font-size: 1.3rem;
+      }
+      .birthday-message {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <form id="config-form">
+    <input type="text" id="nameInput" placeholder="Enter name" required />
+    <input type="date" id="dateInput" required />
+    <input type="time" id="timeInput" required />
+    <button type="submit">Start Countdown</button>
+  </form>
+
+  <div id="title">Countdown to My Birthday 🥂</div>
+  <div id="countdown">--:--:--</div>
+  <div id="typed-message"></div>
+
+  <script>
+    let name = '';
+    let birthday = null;
+    let birthdayTime = null;
+    let timerInterval;
+
+    const messageTemplate = (n) => `Dear ${n},
+
+Today, we celebrate *you*.
+
+All your growth, your journey, your quiet wins, and bold moves. Keep showing up. Keep choosing your peace. You are worthy of every good thing coming.
+
+Happy Birthday. 🎉`;
+
+    function startCountdown() {
+      clearInterval(timerInterval);
+      timerInterval = setInterval(updateCountdown, 1000);
+      updateCountdown();
+    }
+
+    function updateCountdown() {
+      const now = new Date();
+      const targetTime = new Date(birthdayTime);
+
+      const timeLeft = targetTime - now;
+
+      if (timeLeft <= 0) {
+  clearInterval(timerInterval);
+  document.getElementById("countdown").style.fontSize = "4rem";
+  document.getElementById("countdown").textContent = `🎉 Happy Birthday ${name}!`;
+  setTimeout(() => {
+    typeMessage(messageTemplate(name), "typed-message");
+  }, 1000);
+  return;
+}
+
+      const hours = Math.floor((timeLeft / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((timeLeft / (1000 * 60)) % 60);
+      const seconds = Math.floor((timeLeft / 1000) % 60);
+
+      document.getElementById("countdown").textContent =
+        `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }
+
+    function typeMessage(message, elementId, speed = 40) {
+      let i = 0;
+      const element = document.getElementById(elementId);
+      element.innerHTML = "";
+      const interval = setInterval(() => {
+        if (i < message.length) {
+          element.innerHTML += message.charAt(i);
+          i++;
+        } else {
+          clearInterval(interval);
+        }
+      }, speed);
+    }
+
+    document.getElementById("config-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      name = document.getElementById("nameInput").value.trim() || "You";
+      const date = document.getElementById("dateInput").value;
+      const time = document.getElementById("timeInput").value;
+
+      birthdayTime = new Date(`${date}T${time}`);
+      birthday = date;
+
+      document.getElementById("config-form").style.display = "none";
+      document.getElementById("title").style.display = "block";
+      document.getElementById("countdown").style.display = "block";
+      document.getElementById("typed-message").innerHTML = "";
+
+      startCountdown();
+    });
+  </script>
+</body>
+</html>
