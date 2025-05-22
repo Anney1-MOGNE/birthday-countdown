@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Birthday Countdown</title>
   <link rel="manifest" href="manifest.json" />
-<link rel="icon" href="icon-192.png" />
-<meta name="theme-color" content="#000000">
+  <link rel="icon" href="icon-192.png" />
+  <meta name="theme-color" content="#000000">
   <style>
     :root {
       --primary-color: #ffffff;
@@ -97,20 +97,22 @@
     }
 
     @media (max-width: 500px) {
-  #countdown {
-    font-size: 2.5rem; /* Adjust for message on mobile */
-  }
-}
+      #countdown {
+        font-size: 2.5rem;
+      }
+
       h1 {
         font-size: 1.8rem;
       }
+
       #title {
         font-size: 1.3rem;
       }
+
       .birthday-message {
         font-size: 1.5rem;
       }
-    
+    }
   </style>
 </head>
 <body>
@@ -127,7 +129,6 @@
 
   <script>
     let name = '';
-    let birthday = null;
     let birthdayTime = null;
     let timerInterval;
 
@@ -148,18 +149,17 @@ Happy Birthday. 🎉`;
     function updateCountdown() {
       const now = new Date();
       const targetTime = new Date(birthdayTime);
-
       const timeLeft = targetTime - now;
 
       if (timeLeft <= 0) {
-  clearInterval(timerInterval);
-  document.getElementById("countdown").style.fontSize = "6rem";
-  document.getElementById("countdown").textContent = `🎉 Happy Birthday ${name}!`;
-  setTimeout(() => {
-    typeMessage(messageTemplate(name), "typed-message");
-  }, 1000);
-  return;
-}
+        clearInterval(timerInterval);
+        document.getElementById("countdown").style.fontSize = "4rem";
+        document.getElementById("countdown").textContent = `🎉 Happy Birthday ${name}!`;
+        setTimeout(() => {
+          typeMessage(messageTemplate(name), "typed-message");
+        }, 1000);
+        return;
+      }
 
       const hours = Math.floor((timeLeft / (1000 * 60 * 60)) % 24);
       const minutes = Math.floor((timeLeft / (1000 * 60)) % 60);
@@ -188,9 +188,7 @@ Happy Birthday. 🎉`;
       name = document.getElementById("nameInput").value.trim() || "You";
       const date = document.getElementById("dateInput").value;
       const time = document.getElementById("timeInput").value;
-
       birthdayTime = new Date(`${date}T${time}`);
-      birthday = date;
 
       document.getElementById("config-form").style.display = "none";
       document.getElementById("title").style.display = "block";
@@ -200,9 +198,11 @@ Happy Birthday. 🎉`;
       startCountdown();
     });
   </script>
+
   <script>
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js');
+      navigator.serviceWorker.register('service-worker.js')
+        .then(() => console.log('Service Worker Registered'));
     }
   </script>
 </body>
