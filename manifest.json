@@ -1,7 +1,7 @@
 {
     "name": "Anney's Birthday Countdown",
     "short_name": "Birthday Clock",
-    "start_url": "./index.html",
+    "start_url": "/",
     "display": "standalone",
     "background_color": "#000000",
     "theme_color": "#000000",
@@ -17,4 +17,4 @@
         "type": "image/png"
       }
     ]
-  }v
+  }
