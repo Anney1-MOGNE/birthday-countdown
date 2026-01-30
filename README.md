@@ -15,3 +15,6 @@ A simple interactive web app that counts down to your birthday in days, hours, m
 1. Clone the repository:
    ```bash
    git clone https://github.com/Anney1-MOGNE/birthday-countdown.git
+
+   ## Demo
+You can try the live demo here: [Click to view](https://Anney1-MOGNE.github.io/birthday-countdown/)
